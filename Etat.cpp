@@ -6,11 +6,15 @@ void Etat::jump_possible(char car) {
 }
 
 Lien* Etat::getLien(char c) {
-    for (Lien& lien : liens) {
-        if (lien.etiquette == c) {
-            return &lien;
+    for (Lien* lien : liens) {
+        if (lien->etiquette == c) {
+            return lien;
         }
     }
 
     return nullptr;
+}
+
+void Etat::addLien(Lien* lien) {
+    liens.emplace_back(lien);
 }

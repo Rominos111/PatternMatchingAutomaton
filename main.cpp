@@ -98,6 +98,8 @@ int main() {
     /*std::string*/// text = "annie n'honnit ni nina ni irene";
     auto* automate = new Automate();
 
+    auto* automateNew = new Automate(words);
+
     /*std::vector<Occurrence*>*/ res = struct_match(text, *(automate));
 
     for (auto& oc : res) {

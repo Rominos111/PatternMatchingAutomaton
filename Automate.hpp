@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <iostream>
 
 #include "Etat.hpp"
 #include "Lien.hpp"
@@ -18,6 +19,7 @@ public:
     std::string chaine;
     void jump(char car);
     std::vector<std::string> get_etats_finaux() const;
+    std::string toString();
 };
 
 #endif //TP1_AUTOMATE_HPP

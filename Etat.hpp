@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <iostream>
 
 #include "Etat.fwd.hpp"
 #include "Lien.fwd.hpp"

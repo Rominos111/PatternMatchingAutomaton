@@ -25,6 +25,7 @@ Automate::Automate(std::vector<std::string>& words) {
                         }
                     }
 
+                    // TODO: faire récursif !
                     base->addLien(new Lien(word[i], new Etat(final)));
                 }
                 else {
@@ -191,4 +192,9 @@ void Automate::jump(char car) {
 
 std::vector<std::string> Automate::get_etats_finaux() const {
     return this->eCour->final;
+}
+
+std::string Automate::toString(){
+    std::cout << "pk ça s'appl cout?" << std::endl;
+    return nullptr;
 }

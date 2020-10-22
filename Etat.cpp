@@ -16,5 +16,9 @@ Lien* Etat::getLien(char c) {
 }
 
 void Etat::addLien(Lien* lien) {
+    if (getLien(lien->etiquette) != nullptr) {
+        std::cout << "ERREUR: " << lien->etiquette << std::endl;
+    }
+
     liens.emplace_back(lien);
 }

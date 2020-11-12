@@ -1,6 +1,6 @@
 #include "Occurrence.hpp"
 
-Occurrence::Occurrence(std::string& pattern, int index) {
+Occurrence::Occurrence(const std::string& pattern, int index) {
     this->pattern = pattern;
     this->index = index;
 }

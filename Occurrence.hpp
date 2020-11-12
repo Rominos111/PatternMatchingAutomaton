@@ -8,14 +8,35 @@
  */
 class Occurrence {
 public:
-    Occurrence(std::string& pattern, int index);
+    /**
+     * Constructeur
+     *
+     * @param pattern Pattern
+     * @param index Index de découverte
+     */
+    Occurrence(const std::string& pattern, int index);
 
-    std::string getPattern() const;
+    ~Occurrence() = default;
 
-    int getIndex() const;
+    /**
+     * @return pattern
+     */
+    [[nodiscard]] std::string getPattern() const;
+
+    /**
+     * @return index
+     */
+    [[nodiscard]] int getIndex() const;
 
 private:
+    /***
+     * Pattern
+     */
     std::string pattern;
+
+    /**
+     * Index de découverte
+     */
     int index;
 };
 

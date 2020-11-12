@@ -1,15 +1,23 @@
 #ifndef TP1_MAIN_HPP
 #define TP1_MAIN_HPP
 
+#include <iostream>
+
 #include "Occurrence.hpp"
-#include "Etat.hpp"
-#include "Lien.hpp"
-#include "Automate.hpp"
+#include "State.hpp"
+#include "Link.hpp"
+#include "Automaton.hpp"
 
-std::vector<Occurrence*> match_patterns(std::string& text, std::vector<std::string>& words);
+#define DEBUG false
 
-std::vector<Occurrence*> quick_match(std::string& text, std::vector<std::string>& words);
+std::vector<Occurrence*> basicMatch(const std::string& text, const std::vector<std::string>& words);
 
-std::vector<Occurrence*> struct_match(std::string& text, Automate& au);
+std::vector<Occurrence*> quickMatch(const std::string& text, const std::vector<std::string>& words);
+
+std::vector<Occurrence*> automatonMatch(const std::string& text, Automaton& au);
+
+bool testMatchs(const std::string& text, const std::vector<std::string>& words);
+
+int main();
 
 #endif //TP1_MAIN_HPP

@@ -20,35 +20,6 @@ std::vector<Occurrence*> basicMatch(const std::string& text, const std::vector<s
     return res;
 }
 
-// TODO: Retirer
-std::vector<Occurrence*> quickMatch(const std::string& text, const std::vector<std::string>& words) {
-    std::vector<Occurrence*> res;
-    int match[words.size()];
-
-    for (int i = 0; i < words.size(); i++) {
-        match[i] = 0;
-    }
-
-    for (int i = 0; i < text.length(); i++) {
-        for (int j = 0; j < words.size(); j++) {
-            if (text[i] != words.at(j)[match[j]]) {
-                match[j] = 0;
-            }
-
-            if (text[i] == words.at(j)[match[j]]) {
-                match[j]++;
-            }
-
-            if (match[j] == words.at(j).length()) {
-                res.push_back(new Occurrence(words.at(j), i - (int) words.at(j).length() + 1));
-                match[j] = 0;
-            }
-        }
-    }
-
-    return res;
-}
-
 std::vector<Occurrence*> automatonMatch(const std::string& text, Automaton& au) {
     std::vector<Occurrence*> res;
 
@@ -101,36 +72,21 @@ bool testMatchs(const std::string& text, const std::vector<std::string>& words) 
     return ok;
 }
 
+#include <chrono>
+using namespace std::chrono;
+
 int main() {
     std::string text = "annie n'honnit ni nina ni irene";
-    // std::string text = "annie";
 
     std::vector<std::string> words;
     words.emplace_back("ni");
     words.emplace_back("rein");
     words.emplace_back("rene");
     words.emplace_back("irene");
-    // words.emplace_back("nn");
-    // TODO: gérer cet edge-case...
+
+    std::cout << text.size();
 
 #if DEBUG
-    std::vector<Occurrence*> res_base = basicMatch(text, words);
-    for (auto& item : res_base) {
-        std::cout << item->getPattern() << " " << item->getIndex() << std::endl;
-        delete item;
-    }
-
-    std::cout << std::endl;
-
-    auto* automateNew = new Automaton(words);
-    std::vector<Occurrence*> res_automate_dyn = automatonMatch(text, *(automateNew));
-    for (auto& item : res_automate_dyn) {
-        std::cout << item->getPattern() << " " << item->getIndex() << std::endl;
-        delete item;
-    }
-
-    delete automateNew;
-#else
     bool ok = testMatchs(text, words);
 
     if (ok) {
@@ -139,7 +95,42 @@ int main() {
     else {
         std::cout << "aie..." << std::endl;
     }
+#else
+    auto start_basic = high_resolution_clock::now();
+    std::vector<Occurrence*> res_base = basicMatch(text, words);
+    auto stop_basic = high_resolution_clock::now();
+
+    for (auto& item : res_base) {
+        std::cout << item->getPattern() << " " << item->getIndex() << std::endl;
+        delete item;
+    }
+
+    std::cout << std::endl;
+
+    auto start_construct = high_resolution_clock::now();
+    auto* automateNew = new Automaton(words);
+    auto stop_construct = high_resolution_clock::now();
+
+    auto start_match = high_resolution_clock::now();
+    auto res = automatonMatch(text, *(automateNew));
+    auto stop_match = high_resolution_clock::now();
+
+    for (auto& item : res) {
+        std::cout << item->getPattern();
+        std::cout << " " << item->getIndex() << std::endl;
+        delete item;
+    }
+
+    delete automateNew;
+
+    std::cout << std::endl;
+    std::cout << "Algorithme basique : " << duration_cast<microseconds>(stop_basic - start_basic).count() << " µs" << std::endl;
+    std::cout << "Construction de l'automate : " << duration_cast<microseconds>(stop_construct - start_construct).count() << " µs" << std::endl;
+    std::cout << "Algorithme automate : " << duration_cast<microseconds>(stop_match - start_match).count() << " µs" << std::endl;
 #endif
 
     return EXIT_SUCCESS;
 }
+
+// words.emplace_back("nn");
+// TODO: gérer cet edge-case...

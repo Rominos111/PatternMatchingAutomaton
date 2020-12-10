@@ -1,7 +1,3 @@
-//
-// Created by Romain on 19/10/2020.
-//
-
 #ifndef TP1_LINK_HPP
 #define TP1_LINK_HPP
 

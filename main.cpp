@@ -84,8 +84,6 @@ int main() {
     words.emplace_back("rene");
     words.emplace_back("irene");
 
-    std::cout << text.size();
-
 #if DEBUG
     bool ok = testMatchs(text, words);
 
@@ -95,7 +93,7 @@ int main() {
     else {
         std::cout << "aie..." << std::endl;
     }
-#else
+#elif BENCHMARK
     auto start_basic = high_resolution_clock::now();
     std::vector<Occurrence*> res_base = basicMatch(text, words);
     auto stop_basic = high_resolution_clock::now();
@@ -127,6 +125,17 @@ int main() {
     std::cout << "Algorithme basique : " << duration_cast<microseconds>(stop_basic - start_basic).count() << " µs" << std::endl;
     std::cout << "Construction de l'automate : " << duration_cast<microseconds>(stop_construct - start_construct).count() << " µs" << std::endl;
     std::cout << "Algorithme automate : " << duration_cast<microseconds>(stop_match - start_match).count() << " µs" << std::endl;
+#else
+    auto* automateNew = new Automaton(words);
+    auto res = automatonMatch(text, *(automateNew));
+
+    for (auto& item : res) {
+        std::cout << item->getPattern();
+        std::cout << " " << item->getIndex() << std::endl;
+        delete item;
+    }
+
+    delete automateNew;
 #endif
 
     return EXIT_SUCCESS;

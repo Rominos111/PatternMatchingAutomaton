@@ -1,1 +1,1 @@
-# TP1_ALGO
+# Pattern-matching par automate
